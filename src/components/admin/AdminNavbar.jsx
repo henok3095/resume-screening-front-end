@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const AdminNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -20,8 +21,11 @@ const AdminNavbar = () => {
   };
 
   const handleLogout = () => {
-    
-    navigate("/login"); 
+    navigate("/login");
+  };
+
+  const getActiveClass = (path) => {
+    return location.pathname === path ? "text-red-400" : "text-gray-900 md:text-white";
   };
 
   return (
@@ -39,7 +43,7 @@ const AdminNavbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <img
-              src="/logo.png" 
+              src="/logo.png"
               alt="logo"
               className="h-14 md:h-16 w-auto"
             />
@@ -75,7 +79,9 @@ const AdminNavbar = () => {
             <li>
               <a
                 href="/admin/jobposting"
-                className="block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl text-gray-900 md:text-white hover:text-red-400 transition duration-300"
+                className={`block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl hover:text-red-400 transition duration-300 ${getActiveClass(
+                  "/admin/jobposting"
+                )}`}
               >
                 Job Posting
               </a>
@@ -83,12 +89,13 @@ const AdminNavbar = () => {
             <li>
               <a
                 href="/admin/dashboard"
-                className="block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl text-gray-900 md:text-white hover:text-red-400 transition duration-300"
+                className={`block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl hover:text-red-400 transition duration-300 ${getActiveClass(
+                  "/admin/dashboard"
+                )}`}
               >
                 Dashboard
               </a>
             </li>
-            
             <li>
               <button
                 onClick={handleLogout}
@@ -119,7 +126,7 @@ const AdminNavbar = () => {
                 Cancel
               </button>
               <button
-                onClick={handleLogout} // Assuming proceed means logout for admin
+                onClick={handleLogout}
                 className="bg-yellow-400 text-gray-800 px-4 py-2 rounded-md hover:bg-yellow-500 transition"
               >
                 Proceed

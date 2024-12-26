@@ -90,7 +90,7 @@ const Upload = () => {
           onClick={handleSubmit}
           className="mt-6 px-8 py-3 bg-gradient-to-r from-pink-500 to-red-500 text-white text-lg font-semibold rounded-full shadow-lg hover:scale-105 transition-transform"
         >
-          Get Started
+          Submit
         </button>
       </main>
     </div>

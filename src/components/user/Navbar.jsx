@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -20,8 +21,12 @@ const Navbar = () => {
   };
 
   const handleProceed = () => {
-    setShowPopup(false); 
-    navigate("/Login"); 
+    setShowPopup(false);
+    navigate("/Login");
+  };
+
+  const getActiveClass = (path) => {
+    return location.pathname === path ? "text-red-400" : "text-gray-900 md:text-white";
   };
 
   return (
@@ -37,12 +42,8 @@ const Navbar = () => {
       >
         <div className="max-w-full px-4 md:px-12 py-2 flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center">
-            <img
-              src="/logo.png" 
-              alt="logo"
-              className="h-14 md:h-16 w-auto"
-            />
+          <div className="flex items-center font-semibold text-[29px] text-gray-200 font-lilita">
+            Hire Smart
           </div>
 
           {/* Hamburger Menu */}
@@ -75,7 +76,9 @@ const Navbar = () => {
             <li>
               <a
                 href="/home"
-                className="block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl text-gray-900 md:text-white hover:text-red-400 transition duration-300"
+                className={`block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl hover:text-red-400 transition duration-300 ${getActiveClass(
+                  "/home"
+                )}`}
               >
                 Home
               </a>
@@ -83,7 +86,9 @@ const Navbar = () => {
             <li>
               <a
                 href="/about"
-                className="block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl text-gray-900 md:text-white hover:text-red-400 transition duration-300"
+                className={`block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl hover:text-red-400 transition duration-300 ${getActiveClass(
+                  "/about"
+                )}`}
               >
                 About
               </a>
@@ -91,7 +96,9 @@ const Navbar = () => {
             <li>
               <a
                 href="/Jobs"
-                className="block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl text-gray-900 md:text-white hover:text-red-400 transition duration-300"
+                className={`block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl hover:text-red-400 transition duration-300 ${getActiveClass(
+                  "/Jobs"
+                )}`}
               >
                 Jobs
               </a>
@@ -99,7 +106,9 @@ const Navbar = () => {
             <li>
               <a
                 href="/Upload"
-                className="block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl text-gray-900 md:text-white hover:text-red-400 transition duration-300"
+                className={`block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl hover:text-red-400 transition duration-300 ${getActiveClass(
+                  "/Upload"
+                )}`}
               >
                 Upload
               </a>

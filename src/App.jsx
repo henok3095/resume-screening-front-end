@@ -12,6 +12,8 @@ import AdminNavbar from "./components/admin/AdminNavbar";
 // Import Footer
 import Footer from "./components/user/footer"; 
 
+import Home from "./components/user/Home";
+
 // Import user and admin routes
 import { UserRoutes } from "./routes";
 import { AdminRoutes } from "./routes";
@@ -33,7 +35,7 @@ const App = () => {
       {/* Navbar */}
       {!noNavbarRoutes.includes(location.pathname.toLowerCase()) &&
         (isAdminRoute ? <AdminNavbar /> : <Navbar />)}
-
+      
       {/* Toggle button */}
       {!noNavbarRoutes.includes(location.pathname.toLowerCase()) && (
         <button onClick={() => setIsAdmin(!isAdmin)} className="toggle-button">
@@ -44,6 +46,10 @@ const App = () => {
       <main style={{ flex: 1 }}>
         {/* Routes */}
         <Routes>
+          {/* Home */}
+          <Route path="/" element={<Home />} />
+          
+          {/* Admin and User routes */}
           {isAdmin ? (
             <Route path="/admin/*" element={<AdminRoutes />} />
           ) : (
@@ -51,7 +57,6 @@ const App = () => {
           )}
         </Routes>
       </main>
-
       {/* Footer */}
       <Footer />
     </div>
