@@ -10,7 +10,11 @@ const Upload = () => {
     if (selectedFile) {
       // Check if the file is a valid PDF or DOCX file
       const fileType = selectedFile.type;
-      if (fileType === "application/pdf" || fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      if (
+        fileType === "application/pdf" ||
+        fileType ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
         setFile(selectedFile);
         setIsFileValid(true);
       } else {
@@ -25,7 +29,11 @@ const Upload = () => {
     const selectedFile = event.dataTransfer.files[0];
     if (selectedFile) {
       const fileType = selectedFile.type;
-      if (fileType === "application/pdf" || fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      if (
+        fileType === "application/pdf" ||
+        fileType ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) {
         setFile(selectedFile);
         setIsFileValid(true);
       } else {
@@ -42,8 +50,13 @@ const Upload = () => {
   // Handle form submission
   const handleSubmit = () => {
     if (file) {
-      // Handle file upload (e.g., send to server or process locally)
-      alert("Resume uploaded successfully!");
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileData = reader.result; // Base64 string
+        localStorage.setItem("resume", fileData); // Save file data in localStorage
+        alert("Resume uploaded and saved successfully!");
+      };
+      reader.readAsDataURL(file); // Read file as Base64 string
     } else {
       alert("Please upload a valid resume.");
     }
@@ -58,12 +71,16 @@ const Upload = () => {
 
         {/* File Upload Area */}
         <div
-          className={`flex flex-col items-center justify-center gap-6 w-full py-12 rounded-lg shadow-md ${isFileValid ? "" : "border-4 border-red-500"} bg-white bg-opacity-0 backdrop-blur-xl border-2 border-dashed border-gray-400`}
+          className={`flex flex-col items-center justify-center gap-6 w-full py-12 rounded-lg shadow-md ${
+            isFileValid ? "" : "border-4 border-red-500"
+          } bg-white bg-opacity-0 backdrop-blur-xl border-2 border-dashed border-gray-400`}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
           <p className="text-center text-gray-200 text-lg">
-            {file ? `File: ${file.name}` : "Click or drag & drop to upload your resume"}
+            {file
+              ? `File: ${file.name}`
+              : "Click or drag & drop to upload your resume"}
           </p>
           <input
             type="file"
@@ -82,7 +99,9 @@ const Upload = () => {
 
         {/* File Error Message */}
         {!isFileValid && (
-          <p className="text-red-500 mt-2 text-lg">Please upload a valid PDF or DOCX file.</p>
+          <p className="text-red-500 mt-2 text-lg">
+            Please upload a valid PDF or DOCX file.
+          </p>
         )}
 
         {/* Submit Button */}

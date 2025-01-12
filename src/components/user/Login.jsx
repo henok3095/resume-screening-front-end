@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../api/apiSlice";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); 
+  const [login, { isLoading, isError, error, isSuccess }] = useLoginMutation();
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    
-
-    alert("Login successful!");
-
-    
-    navigate("/admin/jobposting"); 
+    try {
+      const response = await login({
+        email: email,
+        password: password,
+      }).unwrap();
+      console.log(`response: ${response}`); // Now response is defined, and you can access token
+      // Store the token if needed (e.g., in localStorage or Redux)
+      localStorage.setItem("token", response.token); // Example of storing token in localStorage
+      // Redirect or navigate to the admin dashboard page
+      navigate("/admin/jobposting"); // Assuming you're using react-router for navigation
+    } catch (error) {
+      console.error("Login failed:", error);
+      // Handle error (e.g., show an error message to the user)
+    }
   };
 
   return (
@@ -30,8 +41,9 @@ const Login = () => {
       <div className="hidden lg:block w-1/2 text-white p-8">
         <h1 className="text-5xl font-bold mb-4">Welcome!</h1>
         <p className="text-lg mb-6">
-          Welcome to HireSmart — your smart hiring solution. Simplify recruitment
-          with AI-powered tools designed for efficiency. Sign in to get started!
+          Welcome to HireSmart — your smart hiring solution. Simplify
+          recruitment with AI-powered tools designed for efficiency. Sign in to
+          get started!
         </p>
         <button className="px-6 py-3 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition">
           Learn More
@@ -40,23 +52,25 @@ const Login = () => {
 
       {/* Login Section */}
       <div className="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-8 shadow-lg mt-10">
-        <h2 className="text-3xl font-bold text-white text-center mb-6">Log In</h2>
-        <form onSubmit={handleSubmit}>
-          {/* Username */}
+        <h2 className="text-3xl font-bold text-white text-center mb-6">
+          Log In
+        </h2>
+        <form onSubmit={handleLogin}>
+          {/* email */}
           <div className="mb-4">
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="block text-white text-sm font-semibold mb-2"
             >
-              User Name
+              Email
             </label>
             <input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="Enter your username"
+              placeholder="Enter your email"
               required
             />
           </div>

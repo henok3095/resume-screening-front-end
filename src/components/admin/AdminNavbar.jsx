@@ -21,11 +21,14 @@ const AdminNavbar = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     navigate("/login");
   };
 
   const getActiveClass = (path) => {
-    return location.pathname === path ? "text-red-400" : "text-gray-900 md:text-white";
+    return location.pathname === path
+      ? "text-red-400"
+      : "text-gray-900 md:text-white";
   };
 
   return (
@@ -42,11 +45,7 @@ const AdminNavbar = () => {
         <div className="max-w-full px-4 md:px-12 py-2 flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <img
-              src="/logo.png"
-              alt="logo"
-              className="h-14 md:h-16 w-auto"
-            />
+            <img src="/logo.png" alt="logo" className="h-14 md:h-16 w-auto" />
           </div>
 
           {/* Hamburger Menu */}
