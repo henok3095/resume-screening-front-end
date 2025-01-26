@@ -64,7 +64,7 @@ const Footer = () => {
 
         {/* Footer Bottom Section */}
         <div className="mt-10 border-t border-gray-700 pt-6 text-center">
-          <p className="text-gray-500">&copy; 2024 HireSmart. All Rights Reserved.</p>
+          <p className="text-gray-500">&copy; 2025 HireSmart. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
