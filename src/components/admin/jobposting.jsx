@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCreatePostMutation } from "../../api/apiSlice";
+import { useNavigate } from "react-router-dom";
 
 const JobPosting = () => {
   const navigate = useNavigate();

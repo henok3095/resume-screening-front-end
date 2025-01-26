@@ -5,7 +5,7 @@ const Home = () => {
   const navigate = useNavigate(); 
 
   const handleGetStarted = () => {
-    navigate("/login"); 
+    navigate("/upload"); // Navigate to the upload page
   };
 
   return (
@@ -37,7 +37,7 @@ const Home = () => {
             <div className="h-72 bg-gradient-to-b from-gray-700 to-gray-900 rounded-lg p-6 flex flex-col justify-between shadow-lg">
               <div>
                 <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-file-alt text-white text-2xl"></i> {/* Example icon */}
+                  <i className="fas fa-file-alt text-white text-2xl"></i> 
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Smart Resume Screening</h3>
                 <p className="text-gray-300">
@@ -49,7 +49,7 @@ const Home = () => {
             <div className="h-72 bg-gradient-to-b from-gray-700 to-gray-900 rounded-lg p-6 flex flex-col justify-between shadow-lg">
               <div>
                 <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-chart-bar text-white text-2xl"></i> {/* Example icon */}
+                  <i className="fas fa-chart-bar text-white text-2xl"></i> 
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Analytics Dashboard</h3>
                 <p className="text-gray-300">
