@@ -24,6 +24,8 @@ ChartJS.register(
 const Dashboard = () => {
   const navigate = useNavigate();
   const [applicantsData, setApplicantsData] = useState([]);
+  const [filteredApplicants, setFilteredApplicants] = useState([]);
+  const [selectedJob, setSelectedJob] = useState("All Jobs");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -34,12 +36,15 @@ const Dashboard = () => {
     // Fetch applicants data (replace with actual API call)
     const fetchApplicantsData = async () => {
       const data = [
-        { name: "Henok E", email: "henok@example.com", rank: 1 },
-        { name: "Abenezer T", email: "abenezer@example.com", rank: 2 },
-        { name: "Isam A", email: "isam@example.com", rank: 3 },
-        { name: "Isam A", email: "isam@example.com", rank: 4 },
+        { job: "Job A", name: "Henok E", email: "henok@example.com", rank: 1 },
+        { job: "Job B", name: "Abenezer T", email: "abenezer@example.com", rank: 2 },
+        { job: "Job A", name: "Isam A", email: "isam@example.com", rank: 3 },
+        { job: "Job C", name: "Michael L", email: "michael@example.com", rank: 4 },
+        { job: "Job B", name: "Sarah W", email: "sarah@example.com", rank: 5 },
+        { job: "Job D", name: "John P", email: "john@example.com", rank: 6 },
       ];
       setApplicantsData(data);
+      setFilteredApplicants(data); // Default: show all applicants
     };
 
     fetchApplicantsData();
@@ -51,12 +56,38 @@ const Dashboard = () => {
     datasets: [
       {
         label: "Number of Applicants",
-        data: [5, 15, 7, 3],
-        backgroundColor: "rgba(255, 159, 64, 0.7)",  // A bold color
-        borderColor: "rgba(255, 159, 64, 1)",
+        data: [
+          applicantsData.filter((a) => a.job === "Job A").length,
+          applicantsData.filter((a) => a.job === "Job B").length,
+          applicantsData.filter((a) => a.job === "Job C").length,
+          applicantsData.filter((a) => a.job === "Job D").length,
+        ],
+        backgroundColor: "rgba(54, 162, 235, 0.7)", // A bold color
+        borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
       },
     ],
+  };
+
+  // Handle Bar Click Event
+  const handleBarClick = (event, elements) => {
+    if (elements.length > 0) {
+      const jobIndex = elements[0].index; // Index of clicked bar
+      const jobName = barChartData.labels[jobIndex]; // Job name from labels
+      setSelectedJob(jobName);
+      setFilteredApplicants(applicantsData.filter((applicant) => applicant.job === jobName));
+    }
+  };
+
+  // Handle Dropdown Selection
+  const handleDropdownChange = (event) => {
+    const jobName = event.target.value;
+    setSelectedJob(jobName);
+    if (jobName === "All Jobs") {
+      setFilteredApplicants(applicantsData); // Show all applicants
+    } else {
+      setFilteredApplicants(applicantsData.filter((applicant) => applicant.job === jobName));
+    }
   };
 
   return (
@@ -82,19 +113,20 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Bar Chart */}
+      {/* Horizontal Bar Chart */}
       <div className="bg-white p-8 rounded-xl shadow-xl mb-10">
         <h3 className="text-2xl font-semibold text-gray-700 mb-6">Applicants Per Job</h3>
         <Bar
           data={barChartData}
           options={{
+            indexAxis: "x", // Make it horizontal
             responsive: true,
             plugins: {
               legend: { position: "top" },
               title: { display: true, text: "Number of Applicants by Job" },
             },
             scales: {
-              y: {
+              x: {
                 beginAtZero: true,
                 ticks: {
                   color: "#6B7280",
@@ -105,7 +137,7 @@ const Dashboard = () => {
                   },
                 },
               },
-              x: {
+              y: {
                 ticks: {
                   color: "#6B7280",
                   font: {
@@ -116,13 +148,28 @@ const Dashboard = () => {
                 },
               },
             },
+            onClick: handleBarClick, // Listen for bar clicks
           }}
         />
       </div>
 
-      {/* Applicants Table */}
+      {/* Applicants Table with Dropdown */}
       <div className="bg-white p-8 rounded-xl shadow-xl">
-        <h3 className="text-2xl font-semibold text-gray-700 mb-6">Applicants for Jobs</h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-2xl font-semibold text-gray-700">Applicants for {selectedJob}</h3>
+          <select
+            className="p-3 border rounded-md shadow-md bg-white text-gray-700"
+            value={selectedJob}
+            onChange={handleDropdownChange}
+          >
+            <option value="All Jobs">All Jobs</option>
+            {barChartData.labels.map((job, index) => (
+              <option key={index} value={job}>
+                {job}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse table-auto">
             <thead className="bg-gradient-to-r from-teal-500 to-blue-500 text-white">
@@ -133,7 +180,7 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {applicantsData.map((applicant, index) => (
+              {filteredApplicants.map((applicant, index) => (
                 <tr
                   key={index}
                   className={`${

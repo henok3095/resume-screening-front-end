@@ -1,6 +1,7 @@
 import React from "react";
 import picture1 from "../../assets/picture1.jpg"
 import picture2 from "../../assets/picture2.png"
+import smilingman from "../../assets/smilingman.jpg"
 
 const About = () => {
   return (
@@ -70,7 +71,7 @@ const About = () => {
             </div>
             <div>
               <img
-                src="https://via.placeholder.com/400x400" 
+                src={smilingman} 
                 className="rounded-lg shadow-md w-full"
               />
             </div>
