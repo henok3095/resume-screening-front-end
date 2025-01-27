@@ -1,6 +1,5 @@
 // In jobposting.jsx file
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { useCreatePostMutation } from "../../api/apiSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +14,7 @@ const JobPosting = () => {
   }, [navigate]);
 
   const [jobTitle, setJobTitle] = useState("");
+  const [requiredExperience, setRequiredExperience] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [requirements, setRequirements] = useState("");
   const [formTitles, setFormTitles] = useState([]);
@@ -28,12 +28,14 @@ const JobPosting = () => {
     console.log("Job Posted:", {
       title: jobTitle,
       description: jobDescription,
+      requiredExperience: requiredExperience,
       forms: newForms.map((form) => ({ title: form.title })),
     });
     try {
       const response = await post({
         title: jobTitle,
         description: jobDescription,
+        requiredExperience: requiredExperience,
         forms: newForms.map((form) => ({ name: form.title })),
       }).unwrap();
       console.log(`response: ${response}`);
@@ -81,6 +83,24 @@ const JobPosting = () => {
               onChange={(e) => setJobTitle(e.target.value)}
               className="w-full p-3 rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter job title"
+              required
+            />
+          </div>
+          {/* requiredExperience */}
+          <div>
+            <label
+              htmlFor="requiredExperience"
+              className="text-white font-medium mb-2 block"
+            >
+              requiredExperience
+            </label>
+            <input
+              type="text"
+              id="requiredExperience"
+              value={requiredExperience}
+              onChange={(e) => setRequiredExperience(e.target.value)}
+              className="w-full p-3 rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter requiredExperience"
               required
             />
           </div>
