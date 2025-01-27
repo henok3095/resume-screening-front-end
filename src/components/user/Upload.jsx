@@ -1,8 +1,25 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useGetAllPostsQuery,
+  useCreateApplicationMutation,
+} from "../../api/apiSlice";
 
 const Upload = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [file, setFile] = useState(null);
   const [isFileValid, setIsFileValid] = useState(true);
+  const { data, userId } = location.state || {}; // Destructure the data
+  const [
+    apply,
+    { isApplicationLoading, isApplicationError, error, isApplicationSuccess },
+  ] = useCreateApplicationMutation();
+
+  console.log("in upload");
+
+  console.log(data);
+  console.log(userId);
 
   // Handle file selection or drag & drop
   const handleFileChange = (event) => {
@@ -48,15 +65,24 @@ const Upload = () => {
   };
 
   // Handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const fileData = reader.result; // Base64 string
-        localStorage.setItem("resume", fileData); // Save file data in localStorage
-        alert("Resume uploaded and saved successfully!");
-      };
-      reader.readAsDataURL(file); // Read file as Base64 string
+      // Convert data to FormData
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value); // Convert `data` object into FormData
+      });
+
+      //Add the file to FormData
+      formData.append("resume", file);
+
+      const response = await apply({
+        CreateApplication: formData,
+        id: userId,
+      }).unwrap();
+      console.log("Response:", response);
+      alert("Applied Successfully");
+      navigate("/Jobs");
     } else {
       alert("Please upload a valid resume.");
     }
