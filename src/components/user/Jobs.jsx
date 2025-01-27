@@ -3,8 +3,10 @@ import {
   useGetAllPostsQuery,
   useCreateApplicationMutation,
 } from "../../api/apiSlice";
+import { useNavigate } from "react-router-dom";
 
 const Jobs = () => {
+  const navigate = useNavigate();
   const {
     data: jobs,
     error: jobError,
@@ -45,9 +47,6 @@ const Jobs = () => {
     try {
       const email = document.getElementById(`input-email`).value;
 
-      // Create FormData object
-      const formData = new FormData();
-
       // Map forms to construct the filledData array
       const filledData = forms.map((form) => {
         const inputElement = document.getElementById(`input-${form._id}`);
@@ -57,41 +56,14 @@ const Jobs = () => {
         };
       });
 
-      // Append filledData as a JSON string
-      formData.append("filledData", JSON.stringify(filledData));
-
-      // Append userIdentifier (email)
-      formData.append("userIdentifier", email);
-
-      // Retrieve resume data from localStorage
-      const resumeData = localStorage.getItem("resume");
-
-      if (resumeData) {
-        // Convert the Base64 or Blob data back into a File object
-        const byteString = atob(resumeData.split(",")[1]); // Decode Base64
-        const mimeType = resumeData.split(",")[0].split(":")[1].split(";")[0]; // Extract MIME type
-        const arrayBuffer = new ArrayBuffer(byteString.length);
-        const uint8Array = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < byteString.length; i++) {
-          uint8Array[i] = byteString.charCodeAt(i);
-        }
-
-        const file = new File([uint8Array], "resume.pdf", { type: mimeType });
-        formData.append("resume", file); // Append file to FormData
-      } else {
-        alert("No resume found. Please upload a resume first.");
-        return;
-      }
-
-      // Send the FormData object
-      // Log all entries in the FormData object
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-        console.log('end')
-      }
-      const response = await apply(formData, userId).unwrap();
-      console.log("Response:", response);
-      alert("Applied Successfully");
+      const dataToSend = {
+        filledData: JSON.stringify(filledData),
+        userIdentifier: email,
+      };
+      console.log("in job");
+      console.log(dataToSend);
+      console.log(userId);
+      navigate("/upload", { state: { data: dataToSend, userId: userId } });
     } catch (error) {
       console.error("Error applying:", error);
       alert("Failed to apply. Please try again.");
@@ -138,13 +110,17 @@ const Jobs = () => {
                 {selectedJob.title}
               </h2>
               <p className="text-md mb-4">{selectedJob.description}</p>
+              <p className="text-md mb-4">
+                {" "}
+                Required experience: {selectedJob.requiredExperience} Years
+              </p>
               {/* email form */}
               <form>
                 <div className="mb-4">
                   <input
                     id={`input-email`}
                     data-field-name={"email"}
-                    type="text"
+                    type="email"
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     placeholder={`Enter Email`}
                   />
