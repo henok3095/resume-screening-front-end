@@ -26,7 +26,9 @@ const Navbar = () => {
   };
 
   const getActiveClass = (path) => {
-    return location.pathname === path ? "text-red-400" : "text-gray-900 md:text-white";
+    return location.pathname === path
+      ? "text-red-400"
+      : "text-gray-900 md:text-white";
   };
 
   return (
@@ -103,16 +105,7 @@ const Navbar = () => {
                 Jobs
               </a>
             </li>
-            <li>
-              <a
-                href="/Upload"
-                className={`block py-3 md:py-0 px-6 md:px-0 text-xl md:text-2xl hover:text-red-400 transition duration-300 ${getActiveClass(
-                  "/Upload"
-                )}`}
-              >
-                Upload
-              </a>
-            </li>
+
             {/* Admin Button */}
             <li>
               <button
