@@ -102,17 +102,6 @@ const Login = () => {
             Submit
           </button>
         </form>
-
-        {/* Register Link */}
-        <p className="mt-6 text-center text-white">
-          Don't have an account?{" "}
-          <Link
-            to="/signup"
-            className="text-orange-400 font-semibold hover:underline"
-          >
-            Register
-          </Link>
-        </p>
       </div>
     </div>
   );
