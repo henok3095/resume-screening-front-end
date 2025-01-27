@@ -1,6 +1,7 @@
 // In jobposting.jsx file
 import React, { useState, useEffect } from "react";
 import { useCreatePostMutation } from "../../api/apiSlice";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 const JobPosting = () => {
