@@ -39,11 +39,14 @@ export const apiSlice = createApi({
       }),
     }),
     createApplication: builder.mutation({
-      query: ({CreateApplication, id}) => ({
+      query: ({ CreateApplication, id }) => ({
         url: `/users/apply/${id}`,
         method: "POST",
         body: CreateApplication,
       }),
+    }),
+    getAnayltics: builder.query({
+      query: (id) => `/admin/get-ranked-application/${id}`,
     }),
   }),
 });
@@ -53,4 +56,6 @@ export const {
   useCreatePostMutation,
   useCreateApplicationMutation,
   useGetAllPostsQuery,
+  useGetAnaylticsQuery,
+  useLazyGetAnaylticsQuery
 } = apiSlice; // Export hooks
