@@ -150,7 +150,7 @@ const Dashboard = () => {
         </div> */}
       </div>
 
-      {/* Bar Chart */}
+      {/* Horizontal Bar Chart */}
       <div className="bg-white p-8 rounded-xl shadow-xl mb-10">
         <h3 className="text-2xl font-semibold text-gray-700 mb-6">
           Applicants Per Job
@@ -158,13 +158,14 @@ const Dashboard = () => {
         <Bar
           data={barChartData}
           options={{
+            indexAxis: "x", // Make it horizontal
             responsive: true,
             plugins: {
               legend: { position: "top" },
               title: { display: true, text: "Number of Applicants by Job" },
             },
             scales: {
-              y: {
+              x: {
                 beginAtZero: true,
                 ticks: {
                   color: "#6B7280",
@@ -175,7 +176,7 @@ const Dashboard = () => {
                   },
                 },
               },
-              x: {
+              y: {
                 ticks: {
                   color: "#6B7280",
                   font: {
@@ -191,7 +192,7 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Applicants Table */}
+      {/* Applicants Table with Dropdown */}
       <div className="bg-white p-8 rounded-xl shadow-xl">
         <h3 className="text-2xl font-semibold text-gray-700 mb-6 flex items-center gap-4">
           {selectedJob

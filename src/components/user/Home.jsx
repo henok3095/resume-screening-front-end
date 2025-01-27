@@ -5,7 +5,7 @@ const Home = () => {
   const navigate = useNavigate(); 
 
   const handleGetStarted = () => {
-    navigate("/upload"); // Navigate to the upload page
+    navigate("/jobs"); // Navigate to the upload page
   };
 
   return (
