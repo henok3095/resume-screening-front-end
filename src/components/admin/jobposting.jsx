@@ -93,7 +93,7 @@ const JobPosting = () => {
               htmlFor="requiredExperience"
               className="text-white font-medium mb-2 block"
             >
-              requiredExperience
+              Required experience 
             </label>
             <input
               type="text"
@@ -101,7 +101,7 @@ const JobPosting = () => {
               value={requiredExperience}
               onChange={(e) => setRequiredExperience(e.target.value)}
               className="w-full p-3 rounded-md bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              placeholder="Enter requiredExperience"
+              placeholder="Enter requiredExperience in years"
               required
             />
           </div>
